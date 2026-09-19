@@ -1,0 +1,64 @@
+/* Eloe DOM Injected Styles */
+
+.eloe-dl-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  transition: opacity 0.2s;
+  margin-left: auto; /* Push to right side of action bar */
+}
+
+.eloe-dl-btn:hover {
+  opacity: 0.6;
+}
+
+.eloe-dl-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor; /* Matches Instagram's icon coloring (light/dark mode aware) */
+}
+
+/* Specific positioning for Feed posts */
+article section.eloe-action-bar-injected {
+  /* Marks that we've injected into this section */
+}
+
+/* Status indicator when downloading */
+.eloe-dl-btn.eloe-loading {
+  animation: eloe-pulse 1s infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes eloe-pulse {
+  0% { opacity: 0.4; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Stories / Reels absolute positioning */
+.eloe-overlay-btn {
+  position: absolute;
+  top: 16px;
+  right: 60px; /* Offset from IG's top-right buttons */
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+.eloe-overlay-btn:hover {
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+}
+
+/* Highlight button when file selection prompt is active */
+.eloe-picking {
+  color: #0095f6 !important;
+}

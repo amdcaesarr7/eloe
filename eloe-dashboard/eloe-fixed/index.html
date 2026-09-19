@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eloe Space Dashboard</title>
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Parallax Space Background -->
+  <div id="parallax-bg">
+    <div class="stars layer-1"></div>
+    <div class="stars layer-2"></div>
+    <div class="stars layer-3"></div>
+  </div>
+
+  <!-- Lock Screen (Among Us / Scanner theme) -->
+  <div id="lock-screen" class="active">
+    <div class="scanner-container">
+      <!-- Minimal Thumbprint SVG -->
+      <svg class="fingerprint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a9 9 0 0 0-9 9M12 6a5 5 0 0 0-5 5M12 10a1 1 0 0 0-1 1M10 22a8 8 0 0 1-5-5.5M16 22a8 8 0 0 0 4.5-9.5M19.5 7.5A9.5 9.5 0 0 0 12 2"></path>
+        <path d="M14 6.5A5.5 5.5 0 0 1 18 11M6 14a6 6 0 0 0 11.5 0M9 11v1"></path>
+      </svg>
+      <div class="scan-line"></div>
+      <div class="lock-text">Hover to Scab</div>
+      <div class="lock-status">AWAITING BIOMETRICS</div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard App -->
+  <div id="app" class="hidden">
+    
+    <div class="top-nav">
+      <h1>[ eloe_terminal ]</h1>
+      <button id="btn-load-folder" class="btn-primary">Connect Local Database</button>
+    </div>
+
+    <div class="dashboard-layout">
+      <!-- Sidebar List -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h3>Target Profiles</h3>
+        </div>
+        <div id="target-list" class="target-list">
+          <!-- Populated dynamically -->
+          <div class="target-empty">No database connected.</div>
+        </div>
+      </aside>
+
+      <!-- Main Display -->
+      <main class="main-panel">
+        <div id="empty-state" class="empty-state">
+          <h2 class="float-anim">> WELCOME BACK, CAESAR.</h2>
+          <p class="float-anim delay-1">STATION 04 - THE SKELD REPLICA. SYSTEM ONLINE.</p>
+          <p class="float-anim delay-1" style="font-size: 10px; margin-top: 5px; opacity: 0.4;">AUTHENTICATED AS [ CREWMATE ] / CLEARANCE: [ ADMIN ]</p>
+          
+          <!-- Global Stats Panel (hidden until database connects) -->
+          <div id="global-stats" class="global-stats hidden float-anim delay-2">
+            <div class="stat-box glow-box">
+              <span class="stat-val" id="g-total-profiles">0</span>
+              <span class="stat-lbl">TOTAL PROFILES</span>
+            </div>
+            <div class="stat-box glow-box">
+              <span class="stat-val" id="g-total-gaddars">0</span>
+              <span class="stat-lbl">TOTAL GADDARS FOUND</span>
+            </div>
+            <div class="stat-box glow-box">
+              <span class="stat-val" id="g-total-media">0</span>
+              <span class="stat-lbl">TOTAL MEDIA ARCHIVED</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="profile-view" class="profile-view hidden">
+          <div class="profile-header float-anim">
+            <div class="pfp-placeholder" id="prof-pic-initial">?</div>
+            <div class="profile-info">
+              <!-- Clickable Username Link -->
+              <h2 id="prof-username"><a href="#" target="_blank" id="prof-link">username</a></h2>
+              <p id="prof-bio">bio...</p>
+            </div>
+            <div class="stats-boxes">
+              <div class="stat-box">
+                <span class="stat-val" id="prof-posts">0</span>
+                <span class="stat-lbl">POSTS</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-val" id="prof-followers">0</span>
+                <span class="stat-lbl">FOLLOWERS</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-val" id="prof-following">0</span>
+                <span class="stat-lbl">FOLLOWING</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts & Data Row -->
+          <div class="data-row float-anim delay-1">
+            <div class="glass-module chart-module">
+              <h3>Ratio Matrix</h3>
+              <canvas id="ratioChart"></canvas>
+            </div>
+            <div class="glass-module gaddar-module">
+              <h3>Traitors (Gaddars)
+                 <span class="badge" id="gaddar-count">0</span>
+              </h3>
+              <p class="desc">Accounts they follow who do not follow back.</p>
+              <div class="gaddar-list" id="gaddar-list">
+                <!-- Gaddars injected here -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="data-row full-width float-anim delay-2">
+            <div class="glass-module">
+              <h3>Extraction Ledger</h3>
+              <p id="prof-fetched">Scraped At: unknown</p>
+              <p>Posts Extracted: <span id="ext-posts">0</span></p>
+              <p>Stories Extracted: <span id="ext-stories">0</span></p>
+              <p>Highlights Extracted: <span id="ext-hl">0</span></p>
+            </div>
+          </div>
+
+          <!-- MEDIA GALLERY -->
+          <div class="media-gallery-container float-anim delay-3">
+            <div class="media-tabs">
+              <button class="m-tab active" data-tab="all">ALL</button>
+              <button class="m-tab" data-tab="posts">POSTS</button>
+              <button class="m-tab" data-tab="reels">REELS</button>
+              <button class="m-tab" data-tab="stories">STORIES</button>
+              <button class="m-tab" data-tab="highlights">HIGHLIGHTS</button>
+            </div>
+            
+            <div class="media-grid" id="media-grid">
+              <!-- Videos/Images injected here & Lazy Loaded -->
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "eloe – Ghost Tracker",
+  "version": "1.0.0",
+  "description": "Finds Instagram accounts a user follows who don't follow back. Auto-opens Instagram, scrapes, and shows results.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "windows"
+  ],
+  "host_permissions": [
+    "https://www.instagram.com/*",
+    "https://i.instagram.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Ghost Tracker",
+    "default_icon": {
+      "16":  "icon16x16.png",
+      "48":  "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16":  "icon16x16.png",
+    "48":  "icon48.png",
+    "128": "icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["content/hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["content/content.js"],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    }
+  ],
+  "background": {
+    "service_worker": "background/background.js"
+  }
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eloe</title>
+  <style>
+    body {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 18px;
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      background: #000;
+      color: #fff;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #efefef;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #e0e0e0;
+    }
+
+    button.btn-primary {
+      background: #0095f6;
+      color: white;
+    }
+
+    button.btn-primary:hover {
+      background: #1877f2;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .status {
+      font-size: 12px;
+      color: #28a745;
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Bulk View */
+    #view-bulk {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .terminal {
+      flex: 1;
+      background: #1e1e1e;
+      color: #00ff00;
+      font-family: monospace;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <h1><span class="logo-icon">◈</span> eloe</h1>
+
+  <!-- Default Settings View -->
+  <div id="view-settings">
+    <p>Eloe v8 is integrated into Instagram. You will see <strong>Download</strong> buttons directly under posts, reels,
+      and stories.blehhh!🤟🤭</p>
+    <div style="margin-top: 20px;">
+      <button id="btn-pick-folder" class="btn-primary">Choose Download Folder</button>
+      <button id="btn-reset-folder">Reset Folder Selection</button>
+      <div id="status-msg" class="status">Folder updated successfully!</div>
+    </div>
+    <p style="font-size: 12px; margin-top: 20px; text-align: center; color: #999;">If buttons don't appear, refresh the
+      Instagram page.</p>
+  </div>
+
+  <!-- Bulk Profile Download View -->
+  <div id="view-bulk">
+    <p>Bulk Downloading: <strong id="bulk-user">...</strong></p>
+    <p style="color: #e53935; font-size: 12px; font-weight: bold;">Do NOT close the Instagram tab in the background
+      until finished!</p>
+    <button id="btn-start-bulk" class="btn-primary">Select Folder & Start Download</button>
+    <button id="btn-stop-bulk" style="display:none; background: #e53935; color: white;">Stop Download</button>
+    <div id="terminal" class="terminal">> Waiting to start...</div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>

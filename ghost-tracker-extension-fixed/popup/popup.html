@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghost Tracker — eloe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════════════ -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">👻</span>
+      <div>
+        <div class="logo-title">Ghost Tracker</div>
+        <div class="logo-sub">Powered by eloe</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div id="user-badge" class="user-badge hidden">
+        <span id="user-badge-name"></span>
+      </div>
+      <!-- Open as Window button (only shown in popup mode) -->
+      <button id="btn-open-window" class="btn-pop-out" title="Open as sticky window">⧉ Pop Out</button>
+    </div>
+  </header>
+
+  <!-- ══ NAV TABS ════════════════════════════════════════════════ -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="scan">🔍 Scan</button>
+    <button class="tab-btn" data-tab="history">🕓 History</button>
+  </nav>
+
+  <!-- ══ TAB: SCAN ══════════════════════════════════════════════ -->
+  <div id="tab-scan" class="tab-content">
+
+    <!-- ── IDLE VIEW ─────────────────────────────────────────── -->
+    <section id="view-idle" class="view">
+
+      <div class="input-group">
+        <label class="input-label" for="victim-input">Target Instagram Username</label>
+        <div class="input-wrap">
+          <span class="input-prefix">@</span>
+          <input id="victim-input" type="text" class="username-input" placeholder="username" autocomplete="off"
+            spellcheck="false" />
+        </div>
+        <p class="input-hint">Works on public accounts. You must be <strong>logged into Instagram</strong> in this
+          browser.</p>
+      </div>
+
+      <button id="btn-scan" class="btn-primary" disabled>
+        <span class="btn-icon">🔍</span> Scan for Ghosts
+      </button>
+
+      <div class="info-cards">
+        <div class="info-card">
+          <span class="info-card-icon">🪟</span>
+          <div>
+            <div class="info-card-title">Auto-opens Instagram</div>
+            <div class="info-card-desc">A new window boots automatically — no manual tab needed.</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="info-card-icon">🔒</span>
+          <div>
+            <div class="info-card-title">No data leaves Chrome</div>
+            <div class="info-card-desc">All requests use your browser session. Zero external servers.</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── BOOTING VIEW ──────────────────────────────────────── -->
+    <section id="view-booting" class="view hidden">
+      <div class="boot-card">
+        <div class="boot-emoji">🌐</div>
+        <div class="boot-title">Opening Instagram…</div>
+        <div id="boot-status" class="boot-status">Launching a new window</div>
+        <div class="boot-bar-wrap">
+          <div class="boot-bar-track">
+            <div id="boot-bar" class="boot-bar-fill"></div>
+          </div>
+        </div>
+        <p class="boot-note">⚠️ Do NOT close the Instagram window that opens!</p>
+      </div>
+      <button id="btn-cancel-boot" class="btn-danger">⛔ Cancel</button>
+    </section>
+
+    <!-- ── SCANNING VIEW ─────────────────────────────────────── -->
+    <section id="view-scanning" class="view hidden">
+      <div class="scan-header">
+        <div class="spinner"></div>
+        <div>
+          <div class="scan-title">Scanning <span id="scan-victim"></span></div>
+          <div id="scan-phase" class="scan-phase">Starting…</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-bars">
+          <div class="p-row">
+            <span class="p-label">Following scraped</span>
+            <span id="cnt-following" class="p-cnt">0</span>
+          </div>
+          <div class="p-row">
+            <span class="p-label">Followers scraped</span>
+            <span id="cnt-followers" class="p-cnt">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="terminal" class="terminal"></div>
+
+      <button id="btn-cancel" class="btn-danger">⛔ Cancel</button>
+    </section>
+
+    <!-- ── RESULTS VIEW ──────────────────────────────────────── -->
+    <section id="view-results" class="view hidden">
+
+      <div class="results-header">
+        <div class="results-stat">
+          <span id="ghost-count" class="stat-num">0</span>
+          <div>
+            <div class="stat-label">ghosts found</div>
+            <div id="stat-victim" class="stat-victim"></div>
+          </div>
+        </div>
+        <div class="results-actions">
+          <button id="btn-copy" class="btn-icon-action" title="Copy usernames">📋</button>
+          <button id="btn-export" class="btn-icon-action" title="Export JSON">💾</button>
+          <button id="btn-rescan" class="btn-icon-action" title="New scan">🔄</button>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <input id="search-input" type="text" placeholder="🔎  Filter usernames…" class="search-input" />
+      </div>
+
+      <div class="filter-pills">
+        <button id="pill-business" class="filter-pill active" title="Account type 3 or is_business flag">🏢 Skip Businesses</button>
+        <button id="pill-creator"  class="filter-pill active" title="Account type 2 or verified">⭐ Skip Creators</button>
+      </div>
+
+      <div id="ghost-list" class="ghost-list"></div>
+
+      <div class="results-footer">
+        <span id="scan-time" class="scan-time"></span>
+      </div>
+
+    </section>
+
+  </div><!-- /tab-scan -->
+
+  <!-- ══ TAB: HISTORY ════════════════════════════════════════════ -->
+  <div id="tab-history" class="tab-content hidden">
+    <section class="view">
+
+      <div class="history-toolbar">
+        <span class="history-title">Past Scans</span>
+        <button id="btn-clear-history" class="btn-danger-sm">🗑 Clear All</button>
+      </div>
+
+      <div id="history-list" class="history-list">
+        <div class="history-empty">
+          <div class="no-ghosts-emoji">🕓</div>
+          <div>No scans yet. Run a scan to see history here.</div>
+        </div>
+      </div>
+
+    </section>
+  </div><!-- /tab-history -->
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
